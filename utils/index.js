@@ -1,10 +1,10 @@
 
 const { Docu, Genre, Year, Rating, Favourite } = require("../models")
 
-const add = async ({ add, name, id, rating }) => {
+const add = async ({ add, name, id }) => {
     if (add === "docu") {
         const genre = await Genre.findByPk(id);
-        await Docu.create({ name }, { GenreId: genre.id });
+        await Docu.create({ name, GenreId: genre.id });
         console.log("Done");
     } else if (add === "genre") {
         await Genre.create({ name });
@@ -33,7 +33,8 @@ const list = async ({ list, id }) => {
     let results = [];
 
     if (list === "docus") {
-        results = await Docu.findAll({ attributes: ["id", "name"] });
+        // const genre = await Genre.findByPk(id);
+        results = await Docu.findAll({ attributes: ["id", "name", "GenreId"] });
     } else if (list === "genres") {
         results = await Genre.findAll({ attributes: ["id", "name"] });
     } else if (list === "years") {
