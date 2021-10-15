@@ -37,10 +37,14 @@ const Favourite = connection.define("Favourite", {
         type: DataTypes.STRING,
         allowNull: false
     }
+}, {
+    indexes: [{ unique: true, fields: ["name"] }]
 });
 
 
 Docu.belongsTo(Genre, { onDelete: "cascade" });
 Docu.belongsTo(Year, { onDelete: "cascade" });
+Docu.belongsTo(Rating, { onDelete: "cascade" });
+Docu.belongsTo(Favourite, { onDelete: "cascade" });
 
 module.exports = { Docu, Genre, Year, Rating, Favourite };

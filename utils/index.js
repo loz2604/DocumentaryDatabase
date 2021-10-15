@@ -20,8 +20,8 @@ const add = async ({ add, name, id }) => {
             console.log("Done");
         }
     } else if (add === "favourite") {
-        if (name != "No" && name != "no" && name != "NO" && name != "N" && name != "n" && name != "Yes" && name != "YES" && name != "yes" && name != "Y" && name != "y") {
-            console.log("Please enter Yes or No for the favourites category");
+        if (name != "no" && name != "yes") {
+            console.log("Please enter yes or no for the favourites category");
         } else {
             await Favourite.create({ name });
             console.log("Done");
@@ -29,12 +29,11 @@ const add = async ({ add, name, id }) => {
     }
 };
 
-const list = async ({ list, id }) => {
+const list = async ({ list }) => {
     let results = [];
 
     if (list === "docus") {
-        // const genre = await Genre.findByPk(id);
-        results = await Docu.findAll({ attributes: ["id", "name", "GenreId", "YearId"] });
+        results = await Docu.findAll({ attributes: ["id", "name", "GenreId", "YearId", "RatingId", "FavouriteId"] });
     } else if (list === "genres") {
         results = await Genre.findAll({ attributes: ["id", "name"] });
     } else if (list === "years") {
@@ -47,10 +46,10 @@ const list = async ({ list, id }) => {
     console.table(results.map(result => result.dataValues));
 };
 
-const update = async ({ update, id, name, genre, year }) => {
+const update = async ({ update, id, name, genre, year, rating, favourite }) => {
     if (update === "docu") {
         const docu = await Docu.findByPk(id);
-        await Docu.update({ name: name || docu.name, GenreId: genre || docu.GenreId, YearId: year || docu.YearId }, { where: { id } });
+        await Docu.update({ name: name || docu.name, GenreId: genre || docu.GenreId, YearId: year || docu.YearId, RatingId: rating || docu.RatingId, FavouriteId: favourite || docu.FavouriteId }, { where: { id } });
         console.log("Done");
     } else if (update === "genre") {
         const genre = await Genre.findByPk(id);
