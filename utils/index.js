@@ -1,7 +1,7 @@
 
 const { Docu, Genre, Year, Rating, Favourite } = require("../models")
 
-const add = async ({ add, name, id }) => {
+const add = async ({ add, name, id, rating }) => {
     if (add === "docu") {
         const genre = await Genre.findByPk(id);
         await Docu.create({ name }, { GenreId: genre.id });
@@ -13,22 +13,21 @@ const add = async ({ add, name, id }) => {
         await Year.create({ name });
         console.log("Done");
     } else if (add === "rating") {
-        await Rating.create({ name });
-        console.log("Done");
+        if (name < 0 || name > 10) {
+            console.log("Please enter a number between 1 and 10")
+        } else {
+            await Rating.create({ name });
+            console.log("Done");
+        }
     } else if (add === "favourite") {
-        await Favourite.create({ name });
-        console.log("Done");
+        if (name != "No" && name != "no" && name != "NO" && name != "N" && name != "n" && name != "Yes" && name != "YES" && name != "yes" && name != "Y" && name != "y") {
+            console.log("Please enter Yes or No for the favourites category");
+        } else {
+            await Favourite.create({ name });
+            console.log("Done");
+        }
     }
 };
-// if (rating < 0 || rating > 10) {
-//     console.log("Please give a rating between 1 and 10");
-// } else if (favourite != "No" && favourite != "no" && favourite != "NO" && favourite != "N" && favourite != "n" && favourite != "Yes" && favourite != "YES" && favourite != "yes" && favourite != "Y" && favourite != "y") {
-//     console.log("Please enter Yes or No for the favourites category");
-// } else {
-//     await Docu.create({ title, genre, year, rating, favourite })
-// }
-// console.log("Your documentary has been added.")
-
 
 const list = async ({ list, id }) => {
     let results = [];
@@ -61,32 +60,41 @@ const update = async ({ update, id, name, genre }) => {
         await Year.update({ name: name || year.name }, { where: { id } });
         console.log("Done");
     } else if (update === "rating") {
-        const rating = await Rating.findByPk(id);
-        await Rating.update({ name: name || rating.name }, { where: { id } });
-        console.log("Done");
+        if (name < 0 || name > 10) {
+            console.log("Please enter a number between 1 and 10")
+        } else {
+            const rating = await Rating.findByPk(id);
+            await Rating.update({ name: name || rating.name }, { where: { id } });
+            console.log("Done");
+        }
     } else if (update === "favourite") {
-        const favourite = await Favourite.findByPk(id);
-        await Favourite.update({ name: name || favourite.name }, { where: { id } });
-        console.log("Done");
+        if (name != "No" && name != "no" && name != "NO" && name != "N" && name != "n" && name != "Yes" && name != "YES" && name != "yes" && name != "Y" && name != "y") {
+            console.log("Please enter Yes or No for the favourites category");
+        } else {
+            const favourite = await Favourite.findByPk(id);
+            await Favourite.update({ name: name || favourite.name }, { where: { id } });
+            console.log("Done");
+        }
+
     }
 };
 
 const remove = async ({ remove, id }) => {
     if (remove === "docu") {
         await Docu.destroy({ where: { id } });
-        console.log("Done");
+        console.log("Deleted");
     } else if (remove === "genre") {
         await Genre.destroy({ where: { id } });
-        console.log("Done");
+        console.log("Deleted");
     } else if (remove === "year") {
         await Year.destroy({ where: { id } });
-        console.log("Done");
+        console.log("Deleted");
     } else if (remove === "rating") {
         await Rating.destroy({ where: { id } });
-        console.log("Done");
+        console.log("Deleted");
     } else if (remove === "favourite") {
         await Favourite.destroy({ where: { id } });
-        console.log("Done");
+        console.log("Deleted");
     }
 };
 
@@ -101,9 +109,7 @@ module.exports = { add, list, update, remove };
 // }
 
 // const docu = Docu.findAll({ where: { id } });
-// if (rating < 0 || rating > 10) {
-//     console.log("Please give a rating between 1 and 10");
-// } else if (favourite != "No" && favourite != "no" && favourite != "NO" && favourite != "N" && favourite != "n" && favourite != "Yes" && favourite != "YES" && favourite != "yes" && favourite != "Y" && favourite != "y") {
+//  else if (favourite != "No" && favourite != "no" && favourite != "NO" && favourite != "N" && favourite != "n" && favourite != "Yes" && favourite != "YES" && favourite != "yes" && favourite != "Y" && favourite != "y") {
 //     console.log("Please enter Yes or No for the favourites category");
 // } else {
 //     await Docu.update({
