@@ -34,7 +34,7 @@ const list = async ({ list, id }) => {
 
     if (list === "docus") {
         // const genre = await Genre.findByPk(id);
-        results = await Docu.findAll({ attributes: ["id", "name", "GenreId"] });
+        results = await Docu.findAll({ attributes: ["id", "name", "GenreId", "YearId"] });
     } else if (list === "genres") {
         results = await Genre.findAll({ attributes: ["id", "name"] });
     } else if (list === "years") {
@@ -47,10 +47,10 @@ const list = async ({ list, id }) => {
     console.table(results.map(result => result.dataValues));
 };
 
-const update = async ({ update, id, name, genre }) => {
+const update = async ({ update, id, name, genre, year }) => {
     if (update === "docu") {
         const docu = await Docu.findByPk(id);
-        await Docu.update({ name: name || docu.name, GenreId: genre || docu.GenreId }, { where: { id } });
+        await Docu.update({ name: name || docu.name, GenreId: genre || docu.GenreId, YearId: year || docu.YearId }, { where: { id } });
         console.log("Done");
     } else if (update === "genre") {
         const genre = await Genre.findByPk(id);

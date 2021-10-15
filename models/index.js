@@ -41,5 +41,6 @@ const Favourite = connection.define("Favourite", {
 
 
 Docu.belongsTo(Genre, { onDelete: "cascade" });
+Docu.belongsTo(Year, { onDelete: "cascade" });
 
 module.exports = { Docu, Genre, Year, Rating, Favourite };
