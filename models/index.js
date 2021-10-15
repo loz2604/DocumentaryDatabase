@@ -1,30 +1,45 @@
 const { DataTypes } = require("sequelize");
 const { connection } = require("../connection");
 
+
 const Docu = connection.define("Docu", {
-    title: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    genre: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    year: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    rating: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    favourite: {
+    name: {
         type: DataTypes.STRING,
         allowNull: false
     }
 }, {
-    //  Making sure the title field is unique, so that there are no duplicates
-    indexes: [{ unique: true, fields: ["title"] }]
+    indexes: [{ unique: true, fields: ["name"] }]
 });
 
-module.exports = { Docu };
+const Genre = connection.define("Genre", {
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+});
+
+const Year = connection.define("Year", {
+    name: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    }
+});
+
+const Rating = connection.define("Rating", {
+    name: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    }
+});
+
+const Favourite = connection.define("Favourite", {
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+});
+
+
+Docu.belongsTo(Genre, { onDelete: "cascade" });
+
+module.exports = { Docu, Genre, Year, Rating, Favourite };
